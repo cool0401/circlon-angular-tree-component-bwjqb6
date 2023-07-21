@@ -1,0 +1,48 @@
+<hello name="Circlon angular tree"></hello>
+<h2>Filter</h2>
+<input
+  id="filter2"
+  #filter2
+  (keyup)="tree.treeModel.filterNodes(filter2.value, true)"
+  placeholder="filter nodes"
+/>
+<button (click)="scroll(tree)">scroll</button>
+<div style="height:200px;overflow:auto">
+  <tree-root [options]="options2" #tree [nodes]="nodes" [focused]="true">
+    <ng-template
+      #treeNodeFullTemplate
+      let-node
+      let-index="index"
+      let-templates="templates"
+    >
+      <div
+        [class]="node.getClass()"
+        [class.tree-node]="true"
+        [class.tree-node-expanded]="node.isExpanded && node.hasChildren"
+        [class.tree-node-collapsed]="node.isCollapsed && node.hasChildren"
+        [class.tree-node-leaf]="node.isLeaf"
+        [class.tree-node-active]="node.isActive"
+        [class.tree-node-focused]="node.isFocused"
+      >
+        <tree-node-drop-slot
+          *ngIf="index === 0"
+          [dropIndex]="node.index"
+          [node]="node.parent"
+        >
+        </tree-node-drop-slot>
+
+        <tree-node-wrapper
+          [node]="node"
+          [index]="index"
+          [templates]="templates"
+        >
+        </tree-node-wrapper>
+
+        <tree-node-children [node]="node" [templates]="templates">
+        </tree-node-children>
+        <tree-node-drop-slot [dropIndex]="node.index + 1" [node]="node.parent">
+        </tree-node-drop-slot>
+      </div>
+    </ng-template>
+  </tree-root>
+</div>
